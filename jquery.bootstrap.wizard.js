@@ -14,8 +14,8 @@ var bootstrapWizardCreate = function(element, options) {
 	var element = $(element);
 	var obj = this;
 
-	// selector skips any 'li' elements that do not contain a child with a tab data-toggle
-	var baseItemSelector = 'li:has([data-toggle="tab"])';
+	// selector skips any 'li' elements that do not contain a child with a tab data-bs-toggle
+	var baseItemSelector = 'li:has([data-bs-toggle="tab"])';
 	var historyStack = [];
 
 	// Merge options with defaults
@@ -32,7 +32,8 @@ var bootstrapWizardCreate = function(element, options) {
 		// Get the current active tab
 		if(!$activeTab.length) {
 			// Select first one
-			$navigation.find('a:first').tab('show');
+			// $navigation.find('a:first').tab('show');
+			bootstrap.Tab.getInstance($navigation.find('a:first')).show()
 			$activeTab = $navigation.find(baseItemSelector + ':first');
 		}
 
@@ -263,16 +264,16 @@ var bootstrapWizardCreate = function(element, options) {
 	this.resetWizard = function() {
 
 		// remove the existing handlers
-		$('a[data-toggle="tab"]', $navigation).off('click', innerTabClick);
-		$('a[data-toggle="tab"]', $navigation).off('show show.bs.tab', innerTabShown);
+		$('a[data-bs-toggle="tab"]', $navigation).off('click', innerTabClick);
+		$('a[data-bs-toggle="tab"]', $navigation).off('show show.bs.tab', innerTabShown);
 
 		// reset elements based on current state of the DOM
 		$navigation = element.find('ul:first', element);
 		$activeTab = $navigation.find(baseItemSelector + '.active', element);
 
 		// re-add handlers
-		$('a[data-toggle="tab"]', $navigation).on('click', innerTabClick);
-		$('a[data-toggle="tab"]', $navigation).on('show show.bs.tab', innerTabShown);
+		$('a[data-bs-toggle="tab"]', $navigation).on('click', innerTabClick);
+		$('a[data-bs-toggle="tab"]', $navigation).on('show show.bs.tab', innerTabShown);
 
 		obj.fixNavigationButtons();
 	};
@@ -294,10 +295,10 @@ var bootstrapWizardCreate = function(element, options) {
 		$settings.onShow($activeTab, $navigation, obj.nextIndex());
 	}
 
-	$('a[data-toggle="tab"]', $navigation).on('click', innerTabClick);
+	$('a[data-bs-toggle="tab"]', $navigation).on('click', innerTabClick);
 
 	// attach to both show and show.bs.tab to support Bootstrap versions 2.3.2 and 3.0.0
-	$('a[data-toggle="tab"]', $navigation).on('show show.bs.tab', innerTabShown);
+	$('a[data-bs-toggle="tab"]', $navigation).on('show show.bs.tab', innerTabShown);
 };
 $.fn.bootstrapWizard = function(options) {
 	//expose methods
